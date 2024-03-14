@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inventos</title>
+        <link href="//vjs.zencdn.net/8.3.0/video-js.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="style.css">
+        <script src="//vjs.zencdn.net/8.3.0/video.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <video
+            id="my-player"
+            class="video-js"
+            controls
+            preload="auto"
+            poster="//vjs.zencdn.net/v/oceans.png"
+            data-setup='{}'>
+          <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+        </video>
+        <div id="chat" class="chatContainer">
+            <div class="chat">
+              
+            </div>
+            <div class="chatBar">
+                <input id="inputMessage" type="text" placeholder="Написать сообщение">
+                <button id="buttonMessage">Отправить</button>
+            </div>
+        </div>
+        </div>
+    <script>
+        const player = videojs('my-player');
+        const button = document.getElementById("buttonMessage")
+        let list  = document.getElementById("chat")
+        let message = document.getElementById("inputMessage").value
+        let messageArray = []
+        player.on('play', function() {
+                document.getElementById('chat').style.display = 'flex';
+    });
+
+        button.addEventListener("click", function(event){
+            let message = document.getElementById("inputMessage").value
+            let listItem = document.createElement("p")
+            listItem.innerHTML = message
+            list.appendChild(listItem)
+            messageArray.push(message)
+            localStorage.setItem("message", JSON.stringify(messageArray))
+            document.getElementById("inputMessage").value = ""
+        })
+        let savedMessage = JSON.parse(localStorage.getItem('message'));
+            if(savedMessage.length > 0){
+                for(let i = 0; i<savedMessage.length; i++){
+                    let listItem = document.createElement("p")  
+                    listItem.innerHTML = savedMessage[i]
+                    list.appendChild(listItem)
+                    messageArray.push(savedMessage[i])
+                         }    
+            } 
+    </script>
+    </body>
+</html>
